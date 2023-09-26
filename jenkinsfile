@@ -4,7 +4,7 @@ pipeline {
     environment {
 
     DOCKERHUB_CREDENTIALS = credentials('dockeruser')
-     registry = "seemeo/javacalc"
+     registry = "wasim73/javacalc"
         registryCredential = 'dockerhub'
     }
 
@@ -13,7 +13,7 @@ pipeline {
 
         stage('Building the docker image') {
             steps {
-                sh 'docker build -t seemeo/javacalc .'
+                sh 'docker build -t wasim73/javacalc .'
             }
         }
         stage('Logging into dockerhub account') {
@@ -23,18 +23,18 @@ pipeline {
         }
         stage('pushing the docker image into dockerhub') {
             steps {
-                  sh 'docker push seemeo/javacalc'
+                  sh 'docker push wasim73/javacalc'
             }
         }
         stage('Remove old docker images') {
              steps {
-                 sh 'docker rmi -f seemeo/javacalc'
+                 sh 'docker rmi -f wasim73/javacalc'
             }
         }
          stage('Running the docker container') {
             steps {
                   sh 'docker container rm --force fe'
-                  sh 'docker run -dt -p 80:8080 --name fe seemeo/javacalc'
+                  sh 'docker run -dt -p 80:8080 --name fe wasim73/javacalc'
             }
         }
     }
