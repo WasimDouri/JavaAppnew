@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    environment {
+
+    DOCKERHUB_CREDENTIALS = credentials('dockeruser')
+     registry = "seemeo/javacalc"
+        registryCredential = 'dockerhub'
+    }
+
+    stages {
+        
+
+        stage('Building the docker image') {
+            steps {
+                sh 'docker build -t seemeo/javacalc .'
+            }
+        }
+        stage('Logging into dockerhub account') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('pushing the docker image into dockerhub') {
+            steps {
+                  sh 'docker push seemeo/javacalc'
+            }
+        }
+        stage('Remove old docker images') {
+             steps {
+                 sh 'docker rmi -f seemeo/javacalc'
+            }
+        }
+         stage('Running the docker container') {
+            steps {
+                  sh 'docker container rm --force fe'
+                  sh 'docker run -dt -p 80:8080 --name fe seemeo/javacalc'
+            }
+        }
+    }
+}
