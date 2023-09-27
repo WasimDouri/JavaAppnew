@@ -34,7 +34,7 @@ pipeline {
          stage('Running the docker container') {
             steps {
                   sh 'docker container rm --force fe'
-                  sh 'docker run -dt -p 80:1313 --name fe wasim73/javacalc'
+                  sh 'docker run -dt -p 80:8080 --name fe wasim73/javacalc'
             }
         }
     }
