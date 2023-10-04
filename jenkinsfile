@@ -15,14 +15,7 @@ pipeline {
                 sh 'docker build -t wasim73/javacalc .'
             }
         }
-	stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('www') {
-                    // Run SonarQube analysis
-                    sh 'mvn sonar:sonar' //
-	 }
-       }
-    }
+	
         stage('Logging into dockerhub account') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
