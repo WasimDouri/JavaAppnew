@@ -9,6 +9,11 @@ pipeline {
     }
 
     stages {
+	stage('Sonar') {
+            steps {
+                sh 'sudo docker run --rm -e SONAR_HOST_URL="http://35.178.82.21' -e SONAR_LOGIN="squ_7537d63e1da92b133b65514640d764d0d1f5be37"'
+            }
+        }
         
         stage('Building the docker image') {
             steps {
