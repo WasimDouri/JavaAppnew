@@ -10,7 +10,13 @@ pipeline {
 
     stages {
         
-
+	stage ('scan'){
+	    steps {
+		withSonarQubeEnv(installationName: 'www'){
+                sh './mvn cleav org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar'
+            }
+	}
+    }
         stage('Building the docker image') {
             steps {
                 sh 'docker build -t wasim73/javacalc .'
